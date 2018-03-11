@@ -8,6 +8,8 @@ import _ from 'lodash';
 import swal from 'sweetalert2';
 import Wishlist from '../wishlist';
 
+import wbc from '../../wb';
+
 export default class ProductDetails {
     constructor($scope, context, productAttributesData = {}) {
         this.$overlay = $('[data-cart-item-add] .loadingOverlay');
@@ -103,7 +105,15 @@ export default class ProductDetails {
         const $changedOption = $(event.target);
         const $form = $changedOption.parents('form');
         const productId = $('[name="product_id"]', $form).val();
+        const color_red = $form.find('[data-product-attribute-value="114"]');
+        console.log('Form', $changedOption);
+        color_red.hide();
+        this.ww = new wbc($changedOption);
+        this.ww.list_all_selected_options();
+        this.ww.get_product_name();
 
+        // this.ww.get_product(112);
+        //
         // Do not trigger an ajax request if it's a file or if the browser doesn't support FormData
         if ($changedOption.attr('type') === 'file' || window.FormData === undefined) {
             return;
